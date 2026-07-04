@@ -12,12 +12,20 @@ Grid & Hashtime is configurable via changing the instances of '6x7' & '6700000' 
 
 Installation:
 ```
-
+python3 -m venv .venv
+source .venv/bin/activate
+pip install pycryptodome
+pip install numpy
+pip install opencv-python
+pip install Pillow
+deactivate
 ```
 
 Operation:
 ```
-
+source .venv/bin/activate
+python3 img67hashcrypt.py
+deactivate
 ```
 
 # Try decrypting this image!
