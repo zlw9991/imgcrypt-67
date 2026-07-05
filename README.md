@@ -8,7 +8,7 @@ Then takes 6-7 seconds turning ur passphrase 2 a decrypting SHA512 key. <br>
 
 Grid & Hashtime is configurable via changing the instances of '6x7' & '6700000' to higher values.
 
-# Installation & Operation
+# Installation & Startup
 
 Installation:
 ```
