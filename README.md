@@ -21,6 +21,8 @@ pip install Pillow
 deactivate
 ```
 
+Do not forget to copy the ```image_shuffler67``` folder into the directory where the above python venv exists.
+
 Operation:
 ```
 source .venv/bin/activate
