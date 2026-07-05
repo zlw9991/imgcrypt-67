@@ -6,6 +6,8 @@ Only have a centrino?
 This script cuts your art into 6x7 pieces.  <br>
 Then takes 6-7 seconds turning ur passphrase 2 a decrypting SHA512 key. <br>
 
+This forces all scrapers to spend 6-7 seconds hashing in order to unshuffle the image.
+
 Grid & Hashtime is configurable via changing the instances of '6x7' & '6700000' to higher values.
 
 Shuffler67 code modified from [@gabrielstork's](https://github.com/gabrielstork) work.
