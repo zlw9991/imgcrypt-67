@@ -8,6 +8,8 @@ Then takes 6-7 seconds turning ur passphrase 2 a decrypting SHA512 key. <br>
 
 Grid & Hashtime is configurable via changing the instances of '6x7' & '6700000' to higher values.
 
+Shuffler67 code modified from [@gabrielstork's](https://github.com/gabrielstork) work.
+
 # Installation & Startup
 
 Installation:
@@ -35,3 +37,7 @@ deactivate
 ![what_a_funky](shuffled_IOSYS_ska.jpg)
 
 - passphrase: flandre
+
+## Credits
+
+* Thanks to [Gabriel Stork's](https://github.com/gabrielstork)'s library [Image_Shuffler](https://github.com/gabrielstork/image-shuffler)
