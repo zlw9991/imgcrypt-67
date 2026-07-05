@@ -43,3 +43,7 @@ deactivate
 ## Credits
 
 * Thanks to [Gabriel Stork's](https://github.com/gabrielstork)'s library [Image_Shuffler](https://github.com/gabrielstork/image-shuffler)
+
+### ZOMG WATCH THIS
+
+[![WAOW](https://i.ytimg.com/vi/KxN5V1IzjnU/maxresdefault.jpg)](https://www.youtube.com/watch?v=KxN5V1IzjnU&list=PLbyhCGqsFkvu13i-qlNXXh1ucw8bJHjnx)
