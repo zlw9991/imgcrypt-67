@@ -29,7 +29,7 @@ def pixelate_img_2_gif(): # added 8/7/2026, modified 16/7/2026
     print("\n PIXELATING 2 GIF \n")
     unpixelimg = str(input("enter your unpixellated image filename: "))
     print("\n")
-    passphrase_sentence = str(input("enter a sentence longer than 67 words: ")).split()
+    passphrase_sentence = str(input("enter a sentence longer than 31 words: ")).split()
     
     for ctri in range(0, 30, 1): # generating gif frames
         passphrase = passphrase_sentence[ctri]
