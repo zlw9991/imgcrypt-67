@@ -22,6 +22,8 @@ pip install pycryptodome
 pip install numpy
 pip install opencv-python
 pip install Pillow
+pip install imageio
+pip install av
 deactivate
 ```
 
