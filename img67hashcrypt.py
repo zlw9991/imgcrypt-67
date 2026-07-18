@@ -56,17 +56,17 @@ def pixelate_img_2_gif(): # added 8/7/2026, modified 16/7/2026
             "protected-" +str(unpixelimg) + ".webm",
             legit_frames,
             plugin="pyav",
-            fps=60,
+            fps=30,
             codec="libvpx-vp9",
             out_pixel_format="yuv420p"
         )
     if len(legit_frames) == 30: # check frames count is 67 and generate mp4.
         iio.imwrite( # save webm at 67fps with compression
-            "protected-" +str(unpixelimg) + ".mp4",
+            "protected-" +str(unpixelimg) + ".avi",
             legit_frames,
             plugin="pyav",
-            fps=60,
-            codec="libx264",
+            fps=30,
+            codec="mpeg4",
             out_pixel_format="yuv420p"
         )
 
