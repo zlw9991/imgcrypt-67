@@ -29,6 +29,9 @@ Do enter an ideally unique sentence with more than 31 words to generate the rand
 The Prismriver Sisters (Purizumuribaa San-shimai) are three poltergeist named Lunasa Prismriver, Merlin Prismriver and Lyrica Prismriver, together appearing as the stage 4 boss of Perfect Cherry Blossom. Lunasa, Merlin, and Lyrica form the band called the "Prismriver Ensemble". They live at the Ruined Western Mansion and perform at parties and festivals. There was also a fourth Prismriver sister, named Layla Prismriver, who created the others based on her original sisters. 
 ```
 
+[protected-IOSYS_ska.jpg.webm](https://github.com/user-attachments/assets/5bf7a71b-8f7f-45a5-ae0d-c121b5c77b7d)
+
+
 # Installation & Startup
 
 Installation:
