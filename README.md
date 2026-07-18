@@ -12,6 +12,23 @@ Grid & Hashtime is configurable via changing the instances of '6x7' & '6700000' 
 
 Shuffler67 code modified from [@gabrielstork's](https://github.com/gabrielstork) work.
 
+##### Added 18/7/2026
+
+I've added a feature that converts your art into a webm & mp4 which has a rapidly glitching layer!
+You can adjust the glitch level via changing the ```spatial_step``` variables found in ```shuffler67.py``` lower (less glitch) or higher (more glitches).
+Ie:
+```
+12 > 4
+26 > 16
+30 > 20
+```
+
+Do enter an ideally unique sentence with more than 67 words to generate the randomness!
+
+```
+The Prismriver Sisters (Purizumuribaa San-shimai) are three poltergeist named Lunasa Prismriver, Merlin Prismriver and Lyrica Prismriver, together appearing as the stage 4 boss of Perfect Cherry Blossom. Lunasa, Merlin, and Lyrica form the band called the "Prismriver Ensemble". They live at the Ruined Western Mansion and perform at parties and festivals. There was also a fourth Prismriver sister, named Layla Prismriver, who created the others based on her original sisters. 
+```
+
 # Installation & Startup
 
 Installation:
