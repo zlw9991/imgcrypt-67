@@ -14,8 +14,8 @@ Shuffler67 code modified from [@gabrielstork's](https://github.com/gabrielstork)
 
 ### Added 18/7/2026
 
-I've added a feature that converts your art into a webm & mp4 which has a rapidly glitching layer!
-You can adjust the glitch level via changing the ```spatial_step``` variables found in ```shuffler67.py``` lower (less glitch) or higher (more glitches).
+I've added a feature that converts your art into a webm & avi with a glitch layer.
+You can adjust the pixel compression via changing the ```spatial_step``` variables found in ```shuffler67.py``` lower (less compression) or higher (more compression).
 Ie:
 ```
 12 > 4
