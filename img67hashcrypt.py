@@ -4,7 +4,7 @@ from base64 import b64encode,b64decode
 from Crypto.Cipher import AES
 from image_shuffler67 import Shuffler67
 import imageio.v3 as iio # Added 16/7/2026
-gif_img_array = [None] * 67 # Added 16/7/2026
+gif_img_array = [None] * 30 # Added 16/7/2026
 
 def encrypt_text():
     print("\n SHUFFLING IMG \n")
@@ -31,13 +31,13 @@ def pixelate_img_2_gif(): # added 8/7/2026, modified 16/7/2026
     print("\n")
     passphrase_sentence = str(input("enter a sentence longer than 67 words: ")).split()
     
-    for ctri in range(0, 67, 1): # generating gif frames
+    for ctri in range(0, 30, 1): # generating gif frames
         passphrase = passphrase_sentence[ctri]
     
         repeathash = hashlib.sha512(passphrase.encode()).digest() # create first hash by turning passphrase into bytes, hashing, then give hash a byte format
     
         hctr = 0
-        while ( hctr <= 67 ):
+        while ( hctr <= 30 ):
             repeathash = hashlib.sha512(repeathash).digest()
             hctr = hctr + 1
             # repeat for 67 times
@@ -51,7 +51,7 @@ def pixelate_img_2_gif(): # added 8/7/2026, modified 16/7/2026
     
     legit_frames = [frame.shuffled[..., ::-1] for frame in gif_img_array if frame is not None] 
     # ^ clear out empty frames, invert colour for iio
-    if len(legit_frames) == 67: # check frames count is 67 and generate webm.
+    if len(legit_frames) == 30: # check frames count is 67 and generate webm.
         iio.imwrite( # save webm at 67fps with compression
             "protected-" +str(unpixelimg) + ".webm",
             legit_frames,
@@ -60,7 +60,7 @@ def pixelate_img_2_gif(): # added 8/7/2026, modified 16/7/2026
             codec="libvpx-vp9",
             out_pixel_format="yuv420p"
         )
-    if len(legit_frames) == 67: # check frames count is 67 and generate mp4.
+    if len(legit_frames) == 30: # check frames count is 67 and generate mp4.
         iio.imwrite( # save webm at 67fps with compression
             "protected-" +str(unpixelimg) + ".mp4",
             legit_frames,
