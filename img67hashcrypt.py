@@ -56,7 +56,7 @@ def pixelate_img_2_gif(): # added 8/7/2026, modified 16/7/2026
             "protected-" +str(unpixelimg) + ".webm",
             legit_frames,
             plugin="pyav",
-            fps=67,
+            fps=60,
             codec="libvpx-vp9",
             out_pixel_format="yuv420p"
         )
@@ -65,7 +65,7 @@ def pixelate_img_2_gif(): # added 8/7/2026, modified 16/7/2026
             "protected-" +str(unpixelimg) + ".mp4",
             legit_frames,
             plugin="pyav",
-            fps=67,
+            fps=60,
             codec="libx264",
             out_pixel_format="yuv420p"
         )
