@@ -165,6 +165,110 @@ class Shuffler67:
 
         self._generate_image(matrix[1])
         # end function
+
+    def pixelate(self, keyhash, matrix: tuple) -> None: # added 8/7/2026
+        # modified
+        self._check_argument(matrix)
+
+        x = int(self.x / matrix[0])
+        x_missing = self.x - (x * matrix[0])
+        x_list = list(range(x, self.x + 1, x))
+
+        y = int(self.y / matrix[1])
+        y_missing = self.y - (y * matrix[1])
+        y_list = list(range(y, self.y + 1, y))
+
+        self._check_pixel_loss(x_missing, y_missing)
+        self._split(x, y, x_list, y_list)
+        
+        # prefix random seed with keyhash, start of modification
+        rng = random.Random(int.from_bytes(keyhash, byteorder='big'))
+        
+        # quarter split image based on seed, added 8/7/2026
+        # first go block by block
+        for ctri in range(len(self._pieces)):
+            quadchoice = rng.randint(0,3)
+            
+            block = self._pieces[ctri] # select block by block, collect block's height & width
+            height, width, colour = block.shape
+            
+            middle_y, middle_x = height // 2, width // 2 # find midpoints 2 split in 4
+            
+            # numpy blocks are:
+            # [ per row, up2bottom -> [ per pixel in row, left2right [rgb],[rgb]..], [[rgb]..], .. ]
+            
+            quad = None
+            otherquads = [None] * 3 # list of other quad sections modified 17/7/2026
+            if quadchoice == 0:
+                # select top left quad
+                quad = block[0:middle_y, 0:middle_x]
+                # select remaining quads modified 17/7/2026
+                otherquads[0], otherquads[1], otherquads[2] = block[0:middle_y, middle_x:width], block[middle_y:height, 0:middle_x], block[middle_y:height, middle_x:width]
+            elif quadchoice == 1:
+                # select top right quad
+                quad = block[0:middle_y, middle_x:width]
+                # select remaining quads modified 17/7/2026
+                otherquads[0], otherquads[1], otherquads[2] = block[0:middle_y, 0:middle_x], block[middle_y:height, 0:middle_x], block[middle_y:height, middle_x:width]
+            elif quadchoice == 2:
+                # select bottom left quad
+                quad = block[middle_y:height, 0:middle_x]
+                # select remaining quads modified 17/7/2026
+                otherquads[0], otherquads[1], otherquads[2] = block[0:middle_y, 0:middle_x], block[0:middle_y, middle_x:width], block[middle_y:height, middle_x:width]
+            else:
+                # select bottom right quad
+                quad = block[middle_y:height, middle_x:width]
+                # select remaining quads modified 17/7/2026
+                otherquads[0], otherquads[1], otherquads[2] = block[0:middle_y, 0:middle_x], block[0:middle_y, middle_x:width], block[middle_y:height, 0:middle_x]
+            
+            # Destructive Pixelation starts
+            spatial_step = 30 # sets pixelization, modified 17/7/2026
+            
+            for y in range(0, quad.shape[0], spatial_step): # from 0 - max height (for every row on y axis, step = 30):
+                for x in range(0, quad.shape[1], spatial_step): # from 0 - max width (for every column on y axis, step = 30):
+                    
+                    pixel_color = quad[y, x] # get colour of sample pixel 
+                    
+                    crushed_pixel_color = pixel_color & 0xF0 # apply pixelation to one pixel
+                    
+                    quad[y:y+spatial_step, x:x+spatial_step] = crushed_pixel_color 
+                    # apply pixelation to chunk of 30x30 pixels
+                    # this affects all chunks in a quad by reference
+                    # which also affects the block the quad come from by reference.
+                    
+                    if rng.randint(0,3) == 0: # commented on 16/7/2026, modified 17/7/2026
+                        pixel_color = quad[y, x] # get colour of sample pixel 
+                        
+                        noise = [random.randint(0,127) for _ in range(3)] # 0-127 colour distorion amt for r,g,b 
+                        
+                        crushed_pixel_color = (pixel_color & 0x80) | noise # apply strong color distortion to one pixel via & 0x80 and adding noise
+                        quad[y:y+spatial_step, x:x+spatial_step] = crushed_pixel_color # if 0 or 3 quadrant, apply random colour pixelation
+            # modified 17/7/2026
+            spatial_step = 12
+            destruct_cnt = 0
+            for ctrbi in range(0,3,1):
+                if rng.randint(0,3) == 0 and destruct_cnt == 0: # trigger destructive pixelation again
+                    spatial_step = 26
+                    destruct_cnt = 1
+                for y in range(0, otherquads[ctrbi].shape[0], spatial_step): # from 0 - max height (for every row on y axis, step =12):
+                    for x in range(0, otherquads[ctrbi].shape[1], spatial_step): # from 0 - max width (for every column on y axis, step =12):
+                        pixel_color = otherquads[ctrbi][y, x] # get colour of sample pixel 
+                        
+                        noise = [random.randint(0,31) for _ in range(3)] # 0-31 colour distorion amt for r,g,b 
+                        
+                        crushed_pixel_color = (pixel_color & 0xE0) | noise # apply mild color distortion to one pixel via & 0xE0 and adding noise
+                    
+                        otherquads[ctrbi][y:y+spatial_step, x:x+spatial_step] = crushed_pixel_color 
+                        # apply pixelation to chunk of 4x4 pixels
+                        # this affects all chunks in a quad by reference
+                        # which also affects the block the quad come from by reference.
+            
+            
+            # pixelation ends
+            
+        # quarter splitting ends
+
+        self._generate_image(matrix[1])
+        # end function
     
 
     def show(self) -> None:
@@ -181,5 +285,11 @@ class Shuffler67:
     def save_unshuffle(self) -> None:
         cv.imwrite(
             str(self.path.parent.resolve() / f'unshuffle_{self.path.name}'),
+            self.shuffled,
+        )
+    
+    def save_pixelated(self) -> None: # added 8/7/2026
+        cv.imwrite(
+            str(self.path.parent.resolve() / f'pixelated_{self.path.name}'),
             self.shuffled,
         )
