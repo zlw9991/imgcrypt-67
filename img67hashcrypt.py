@@ -5,6 +5,17 @@ from Crypto.Cipher import AES
 from image_shuffler67 import Shuffler67
 import imageio.v3 as iio # Added 16/7/2026
 gif_img_array = [None] * 30 # Added 16/7/2026
+from argon2.low_level import hash_secret_raw, Type # ARGON2 UPGRADE
+import secrets # ARGON2 UPGRADE
+
+# ARGON2 UPGRADE
+TIME_COST = 67
+MEMORY_COST = 524288
+PARALLELISM = 4
+HASHLEN = 64
+USERMATRIX = (6,7)
+# ARGON2 UPGRADE
+
 
 def encrypt_text():
     print("\n SHUFFLING IMG \n")
@@ -12,17 +23,25 @@ def encrypt_text():
     print("\n")
     unshuffledimg = str(input("enter your image filename: "))
     
-    repeathash = hashlib.sha512(passphrase.encode()).digest() # create first hash by turning passphrase into bytes, hashing, then give hash a byte format
-    
-    hctr = 0
-    while ( hctr <= 6700000 ):
-        repeathash = hashlib.sha512(repeathash).digest()
-        hctr = hctr + 1
-        # repeat for 6.7 million times
+    print("Generating Nonce") # ARGON2 UPGRADE
+    noncey = secrets.token_bytes(16) # ARGON2 UPGRADE
+    print("Your Nonce is: " + b64encode(noncey).decode('utf-8')) # ARGON2 UPGRADE
+    # ARGON2 UPGRADE
+    repeathash = hash_secret_raw(
+        secret=passphrase.encode("utf-8"),
+        salt=noncey,
+        time_cost=TIME_COST,
+        memory_cost=MEMORY_COST,
+        parallelism=PARALLELISM,
+        hash_len=HASHLEN,
+        type=Type.D
+    )
+    # create first hash by turning passphrase into bytes, hashing, then give hash a byte format
+    # ARGON2 UPGRADE
     
     # shuffles & flips img w keyhash
     image = Shuffler67(unshuffledimg)
-    image.shuffle(repeathash, matrix=(6,7))
+    image.shuffle(repeathash, matrix=USERMATRIX) # ARGON2 UPGRADE
     image.save()
 
 def pixelate_img_2_gif(): # added 8/7/2026, modified 16/7/2026
@@ -40,19 +59,19 @@ def pixelate_img_2_gif(): # added 8/7/2026, modified 16/7/2026
         while ( hctr <= 30 ):
             repeathash = hashlib.sha512(repeathash).digest()
             hctr = hctr + 1
-            # repeat for 67 times
+            # repeat for 30 times
     
         # flip again to unflip, then do unshuffling
         image = Shuffler67(unpixelimg)
-        image.pixelate(repeathash, matrix=(6,7))
+        image.pixelate(repeathash, matrix=USERMATRIX) # ARGON2 UPGRADE
         gif_img_array[ctri] = image
     
     # merging frames
     
     legit_frames = [frame.shuffled[..., ::-1] for frame in gif_img_array if frame is not None] 
     # ^ clear out empty frames, invert colour for iio
-    if len(legit_frames) == 30: # check frames count is 67 and generate webm.
-        iio.imwrite( # save webm at 67fps with compression
+    if len(legit_frames) == 30: # check frames count is 30 and generate webm.
+        iio.imwrite( # save webm at 30fps with compression
             "protected-" +str(unpixelimg) + ".webm",
             legit_frames,
             plugin="pyav",
@@ -60,8 +79,8 @@ def pixelate_img_2_gif(): # added 8/7/2026, modified 16/7/2026
             codec="libvpx-vp9",
             out_pixel_format="yuv420p"
         )
-    if len(legit_frames) == 30: # check frames count is 67 and generate mp4.
-        iio.imwrite( # save webm at 67fps with compression
+    if len(legit_frames) == 30: # check frames count is 30 and generate avi.
+        iio.imwrite( # save webm at 30fps with compression
             "protected-" +str(unpixelimg) + ".avi",
             legit_frames,
             plugin="pyav",
@@ -74,19 +93,26 @@ def decrypt_text():
     print("\n UNSHUFFLING \n")
     passphrase = str(input("enter your passphrase: "))
     print("\n")
+    noncey = b64decode(input("enter your nonce: ")) # ARGON2 UPGRADE
+    print("\n") # ARGON2 UPGRADE
     shuffledimg = str(input("enter your shuffled image filename: "))
     
-    repeathash = hashlib.sha512(passphrase.encode()).digest() # create first hash by turning passphrase into bytes, hashing, then give hash a byte format
-    
-    hctr = 0
-    while ( hctr <= 6700000 ):
-        repeathash = hashlib.sha512(repeathash).digest()
-        hctr = hctr + 1
-        # repeat for 6.7 million times
+    # ARGON2 UPGRADE
+    repeathash = hash_secret_raw(
+        secret=passphrase.encode("utf-8"),
+        salt=noncey,
+        time_cost=TIME_COST,
+        memory_cost=MEMORY_COST,
+        parallelism=PARALLELISM,
+        hash_len=HASHLEN,
+        type=Type.D
+    )
+    # create first hash by turning passphrase into bytes, hashing, then give hash a byte format
+    # ARGON2 UPGRADE
     
     # flip again to unflip, then do unshuffling
     image = Shuffler67(shuffledimg)
-    image.unshuffle(repeathash, matrix=(6,7))
+    image.unshuffle(repeathash, matrix=USERMATRIX) # ARGON2 UPGRADE
     image.save_unshuffle()
 
 i = 0
@@ -95,7 +121,7 @@ while ( i != 9 ):
     print("# IMG67HASHCRYPT MENU, ENTER A NO:#")
     print("# 1 == shuffle img                #")
     print("# 2 == unshuffle img              #")
-    print("# 3 == pixellate img 2 webm + mp4 #")  # added 8/7/2026, modified 16/7/2026
+    print("# 3 == pixellate img 2 webm + avi #")  # added 8/7/2026, modified 16/7/2026
     print("# 9 == quit                       #")
     print("###################################")
     i = int(input("Enter num: "))
