@@ -4,18 +4,19 @@ Don't have a GPU for nightshade or glaze? <br>
 Only have a centrino?
 
 This script cuts your art into 6x7 pieces.  <br>
-Then takes 6-7 seconds turning ur passphrase 2 a decrypting SHA512 key. <br>
+Then shuffles & rotates the blocks with an ARGON2 key. <br>
 
 This forces all scrapers to spend 6-7 seconds hashing in order to unshuffle the image.
 
-Grid & Hashtime is configurable via changing the instances of '6x7' & '6700000' to higher values.
+**Grid dimension** is configurable via changing the grid variable of ``` USERMATRIX ```. <br>
+**Encryption + decryption time** can be increased by incrementing ```TIME_COST ``` & ``` MEMORY_COST ``` to higher values.
 
 Shuffler67 code modified from [@gabrielstork's](https://github.com/gabrielstork) work.
 
 ### Added 18/7/2026
 
 I've added a feature that converts your art into a webm & avi with a glitch layer.
-You can adjust the pixel compression via changing the ```spatial_step``` variables found in ```shuffler67.py``` lower (less compression) or higher (more compression).
+You can adjust the **pixel compression** via changing the ```spatial_step``` variables found in ```shuffler67.py``` to lower (less compression) or higher (more compression).
 Ie:
 ```
 12 > 4
@@ -44,6 +45,7 @@ pip install opencv-python
 pip install Pillow
 pip install imageio
 pip install av
+pip install argon2-cffi
 deactivate
 ```
 
@@ -61,6 +63,7 @@ deactivate
 ![what_a_funky](shuffled_IOSYS_ska.jpg)
 
 - passphrase: flandre
+- nonce: 5qfMQdPZwYFE4/xYE0fLqw==
 
 ## Credits
 
