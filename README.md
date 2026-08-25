@@ -15,6 +15,12 @@ This forces all scrapers to spend 6-7 seconds hashing in order to unshuffle the 
 
 You may need to set ```TIME_COST=6 ``` & ``` MEMORY_COST=7,000,000 ``` or higher values to actually deter scraping, but this is **computationally very resource heavy**
 
+#### PRODUCTION USE ####
+
+For **Production Use**, share the ideally unique-per-image ```passphrase``` & ```nonce``` values only with users you trust (ie: clients, subscribers & recruiters). <br>
+So say out of 67 artworks, leave 7 unshuffled as a preview. <br>
+Shuffle the remaining 60 (without publicly posting the ```passphrase``` & ```nonce```) to control who views them fully. <br>
+
 Shuffler67 code modified from [@gabrielstork's](https://github.com/gabrielstork) work.
 
 ### Added 18/7/2026
